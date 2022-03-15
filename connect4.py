@@ -2,7 +2,9 @@
 
 # Rack is 6 rows x 7 columns
 # Player must connect 4 discs in a row (horizontal, vertical or diagonal)
+import numpy as np
 import time
+
 
 def intro():
 
@@ -35,14 +37,59 @@ def intro():
         print("Invalid input!")
         intro()
 
+# The actual game
 def game():
-    board = [   
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""]            
-            ]
+    game_over = False
+    board = create_board()
+    turn = 0
+    
+    # Loops between players
+    while not game_over:
+
+        print(board)
+        print("\n")
+
+        # PLAYER 1 TURN
+        if turn == 0:
+            try:
+                column = int(input("Player 1, make your selection (0-6): \n"))
+                for i in range(len(board) - 1, -1, -1):
+                    print(i)
+                    if (board[i][column] == 0):
+                        board[i][column] = 1
+                        break
+                    
+                    
+            except ValueError:
+                print("Invalid input! Please enter your column between (0 - 6)!")
+                turn = -1
+
+        else:
+            # PLAYER 2's TURN
+            try:
+                column = int(input("Player 2, make your selection (0-6): \n"))
+                for i in range(len(board) - 1, -1, -1):
+                    if (board[i][column] == 0):
+                        board[i][column] = 2
+                        break
+                    
+                        
+            except ValueError:
+                print("Invalid input! Please enter your column between (0 - 6)!")
+                turn = 0
+                
+
+        turn += 1
+        # resets turn number to 0 if turn = 2
+        turn = turn % 2
+
+def check_for_win(board):
+    pass
+
+
+# Creates the empty board
+def create_board():
+    board = np.zeros((6, 7))
+    return board
 
 intro()
