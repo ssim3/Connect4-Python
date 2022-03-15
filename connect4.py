@@ -5,6 +5,8 @@
 import numpy as np
 import time
 
+from pyparsing import col
+
 
 def intro():
 
@@ -52,30 +54,46 @@ def game():
         # PLAYER 1 TURN
         if turn == 0:
             try:
-                column = int(input("Player 1, make your selection (0-6): \n"))
+                column = int(input("Player 1, make your selection (1-7): \n"))
+                # Makes sure player picks a valid column
+                while column < 1 or column > 7:
+                    column = int(input("Player 1, make your selection (1-7): \n"))
+
                 for i in range(len(board) - 1, -1, -1):
-                    print(i)
-                    if (board[i][column] == 0):
-                        board[i][column] = 1
-                        break
+                    # Checks if column is full
+                    if (board[0][column] == 0):
+                        if (board[i][column - 1] == 0):
+                            board[i][column - 1] = 1
+                            break
+                    else:
+                        # If column is full, asks player 1 for another slot
+                        turn = -1
                     
                     
             except ValueError:
-                print("Invalid input! Please enter your column between (0 - 6)!")
+                print("Invalid input! Please enter your column between (1 - 7)!")
                 turn = -1
 
-        else:
-            # PLAYER 2's TURN
+        # PLAYER 2's TURN
+        else:           
             try:
-                column = int(input("Player 2, make your selection (0-6): \n"))
+                column = int(input("Player 2, make your selection (1-7): \n"))
+                # Makes sure player picks a valid column
+                while column < 1 or column > 7:
+                    column = int(input("Player 2, make your selection (1-7): \n"))
+                
                 for i in range(len(board) - 1, -1, -1):
-                    if (board[i][column] == 0):
-                        board[i][column] = 2
-                        break
+                    if (board[0][column - 1] == 0):
+                        if (board[i][column - 1] == 0):
+                            board[i][column - 1] = 2
+                            break
+                    else:
+                        # If column is full, will ask player 2 to choose another slot
+                        turn = 0
                     
                         
             except ValueError:
-                print("Invalid input! Please enter your column between (0 - 6)!")
+                print("Invalid input! Please enter your column between (1 - 7)!")
                 turn = 0
                 
 
