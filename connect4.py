@@ -5,9 +5,6 @@
 import numpy as np
 import time
 
-from pyparsing import col
-
-
 def intro():
 
     print("""
@@ -96,7 +93,6 @@ def game():
                 print("Invalid input! Please enter your column between (1 - 7)!")
                 turn = 0
                 
-
         turn += 1
         # resets turn number to 0 if turn = 2
         turn = turn % 2
