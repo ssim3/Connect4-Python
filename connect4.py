@@ -65,7 +65,7 @@ def game():
                     if (board[0][column - 1] == 0):
                         if (board[i][column - 1] == 0):
                             board[i][column - 1] = 1
-                            game_over = vertical_check(board, 1)
+                            game_over = check_for_win(board, 1)
                             break
                     else:
                         # If column is full, asks player 1 for another slot
@@ -88,7 +88,7 @@ def game():
                     if (board[0][column - 1] == 0):
                         if (board[i][column - 1] == 0):
                             board[i][column - 1] = 2
-                            game_over = vertical_check(board, 2)
+                            game_over = check_for_win(board, 2)
                             break
                     else:
                         # If column is full, will ask player 2 to choose another slot
@@ -104,11 +104,18 @@ def game():
         # resets turn number to 0 if turn = 2
         turn = turn % 2
 
+    replay()
+
 
 def check_for_win(board, piece):
     horizontal = horizontal_check(board, piece)
     vertical = vertical_check(board, piece)
     diagonal = diagonal_check(board, piece)
+
+    if (horizontal or vertical or diagonal):
+        time.sleep(1)
+        print("\nPlayer {} wins! Congratulations!\n".format(str(piece)))
+        print(board)
 
     return horizontal or vertical or diagonal
 
@@ -118,18 +125,25 @@ def horizontal_check(board, piece):
             if (board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][c + 3] == piece):
                 return True
             
-            
-
 def vertical_check(board, piece):
     for r in range(ROWS - 3):
         for c in range(COLUMNS):
             if (board[r][c] == piece and board[r + 1][c] == piece and board[r + 2][c] == piece and board[r + 3][c] == piece):
                 return True
             
+def diagonal_check(board, piece):
+    # Facing right check
+    for c in range(COLUMNS - 3):
+        for r in range(3, ROWS):
+            if (board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][c + 3] == piece):
+                return True
+    
+    # Facing left check
 
-
-def diagonal_check(board):
-    pass
+    for c in range(6, COLUMNS - 5, -1):
+        for r in range(3, ROWS):
+            if (board[r][c] == piece and board[r - 1][c - 1] == piece and board[r - 2][c - 2] == piece and board[r - 3][c - 3] == piece):
+                return True
 
 
 # Creates the empty board
@@ -137,5 +151,23 @@ def create_board():
     board = np.zeros((6, 7))
     return board
 
-intro()
+def replay():
+    play_again = input("Would you like to play again? (y/n): ")
+    
+    print(play_again)
 
+    if (play_again == "y"):
+        print("Now restarting game...")
+        time.sleep(2)
+        intro()
+    elif (play_again == "n"):
+        print("Thanks for playing! See you again soon....")
+        time.sleep(2)
+        quit()
+    else:
+        print("Invalid input!")
+        replay()
+
+#intro()
+
+replay()
