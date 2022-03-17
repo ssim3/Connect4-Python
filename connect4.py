@@ -65,7 +65,7 @@ def game():
                     if (board[0][column - 1] == 0):
                         if (board[i][column - 1] == 0):
                             board[i][column - 1] = 1
-                            game_over = horizontal_check(board, 1)
+                            game_over = vertical_check(board, 1)
                             break
                     else:
                         # If column is full, asks player 1 for another slot
@@ -88,7 +88,7 @@ def game():
                     if (board[0][column - 1] == 0):
                         if (board[i][column - 1] == 0):
                             board[i][column - 1] = 2
-                            game_over = horizontal_check(board, 2)
+                            game_over = vertical_check(board, 2)
                             break
                     else:
                         # If column is full, will ask player 2 to choose another slot
@@ -105,10 +105,10 @@ def game():
         turn = turn % 2
 
 
-def check_for_win(board):
-    horizontal = horizontal_check()
-    vertical = vertical_check()
-    diagonal = diagonal_check()
+def check_for_win(board, piece):
+    horizontal = horizontal_check(board, piece)
+    vertical = vertical_check(board, piece)
+    diagonal = diagonal_check(board, piece)
 
     return horizontal or vertical or diagonal
 
@@ -118,13 +118,15 @@ def horizontal_check(board, piece):
             if (board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][c + 3] == piece):
                 return True
             
+            
 
-                    
-        
+def vertical_check(board, piece):
+    for r in range(ROWS - 3):
+        for c in range(COLUMNS):
+            if (board[r][c] == piece and board[r + 1][c] == piece and board[r + 2][c] == piece and board[r + 3][c] == piece):
+                return True
+            
 
-
-def vertical_check(board):
-    pass
 
 def diagonal_check(board):
     pass
