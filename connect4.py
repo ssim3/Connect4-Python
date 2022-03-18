@@ -169,4 +169,6 @@ def replay():
         print("Invalid input!")
         replay()
 
-intro()
+#intro()
+
+replay()
