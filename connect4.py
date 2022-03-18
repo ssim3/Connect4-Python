@@ -152,6 +152,7 @@ def create_board():
     return board
 
 def replay():
+    print("Nice balls bro")
     play_again = input("Would you like to play again? (y/n): ")
     
     print(play_again)
